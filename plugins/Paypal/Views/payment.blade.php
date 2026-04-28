@@ -4,9 +4,9 @@
 <!-- Include the PayPal JavaScript SDK -->
 @php($currency = strtoupper(system_setting('currency')))
 @if($payment_setting['sandbox_mode'])
-    <script src="https://www.paypal.com/sdk/js?client-id={{ plugin_setting('paypal.sandbox_client_id') }}&currency={{ $currency }}"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id={{ plugin_setting('pay_pal.sandbox_client_id') }}&currency={{ $currency }}"></script>
 @else
-    <script src="https://www.paypal.com/sdk/js?client-id={{ plugin_setting('paypal.live_client_id') }}&currency={{ $currency }}"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id={{ plugin_setting('pay_pal.live_client_id') }}&currency={{ $currency }}"></script>
 @endif
 
 <script>
@@ -15,7 +15,7 @@
         // Call your server to set up the transaction
         createOrder: function (data, actions) {
             const token = $('meta[name="csrf-token"]').attr('content')
-            return fetch('{{ front_route('paypal.create') }}', {
+            return fetch('{{ front_route('pay_pal.create') }}', {
                 method: 'POST',
                 headers: {
                     'X-CSRF-Token': token
@@ -44,7 +44,7 @@
         // Call your server to finalize the transaction
         onApprove: function (data, actions) {
             const token = $('meta[name="csrf-token"]').attr('content')
-            return fetch('{{ front_route('paypal.capture') }}', {
+            return fetch('{{ front_route('pay_pal.capture') }}', {
                 method: 'POST',
                 headers: {
                     'X-CSRF-Token': token
@@ -52,7 +52,6 @@
                 body: JSON.stringify({
                     orderNumber: "{{$order->number}}",
                     paypalOrderId: data.orderID,
-                    payment_gateway_id: $("#payapalId").val(),
                 })
             }).then(function (res) {
                 // console.log(res.json());

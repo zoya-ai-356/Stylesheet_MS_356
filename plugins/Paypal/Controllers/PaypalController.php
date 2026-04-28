@@ -7,7 +7,7 @@
  * @license    https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-namespace Plugin\Paypal\Controllers;
+namespace Plugin\PayPal\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,22 +15,22 @@ use Illuminate\Support\Facades\DB;
 use InnoShop\Common\Repositories\Order\PaymentRepo;
 use InnoShop\Common\Repositories\OrderRepo;
 use InnoShop\Common\Services\StateMachineService;
-use Plugin\Paypal\Services\PaypalService;
+use Plugin\PayPal\Services\PayPalService;
 use Srmklive\PayPal\Services\PayPal;
 use Throwable;
 
-class PaypalController
+class PayPalController
 {
     private PayPal $paypalClient;
 
     /**
-     * Init Paypal
+     * Init PayPal
      *
      * @throws Throwable
      */
-    private function initPaypal($order): void
+    private function initPayPal($order): void
     {
-        $paypalService      = new PaypalService($order);
+        $paypalService      = new PayPalService($order);
         $this->paypalClient = $paypalService->paypalClient;
     }
 
@@ -47,7 +47,11 @@ class PaypalController
         $orderNumber = $requestData['orderNumber'] ?? '';
 
         $order = OrderRepo::getInstance()->getOrderByNumber($orderNumber);
-        $this->initPaypal($order);
+        if (empty($order)) {
+            return response()->json(['error' => ['message' => 'Order not found']], 404);
+        }
+
+        $this->initPayPal($order);
 
         $paypalOrder = $this->paypalClient->createOrder([
             'intent'         => 'CAPTURE',
@@ -78,22 +82,36 @@ class PaypalController
         $orderNumber = $requestData['orderNumber'] ?? '';
 
         $order = OrderRepo::getInstance()->getOrderByNumber($orderNumber);
+        if (empty($order)) {
+            return response()->json(['error' => ['message' => 'Order not found']], 404);
+        }
 
-        $this->initPaypal($order);
-        PaymentRepo::getInstance()->createOrUpdatePayment($order->id, ['request' => $requestData]);
+        $this->initPayPal($order);
         $paypalOrderId = $requestData['paypalOrderId'];
         $result        = $this->paypalClient->capturePaymentOrder($paypalOrderId);
-        PaymentRepo::getInstance()->createOrUpdatePayment($order->id, ['response' => $result]);
+
+        $isCompleted = ($result['status'] ?? '') === 'COMPLETED';
+        $captureUnit = $result['purchase_units'][0]['payments']['captures'][0] ?? [];
+
+        PaymentRepo::getInstance()->createOrUpdatePayment($order->id, [
+            'charge_id'    => $captureUnit['id'] ?? $paypalOrderId,
+            'amount'       => (float) ($captureUnit['amount']['value'] ?? $order->total),
+            'handling_fee' => (float) ($captureUnit['seller_receivable_breakdown']['paypal_fee']['value'] ?? 0),
+            'paid'         => $isCompleted,
+            'reference'    => ['request' => $requestData, 'response' => $result],
+        ]);
 
         try {
             DB::beginTransaction();
             if ($result['status'] === 'COMPLETED') {
                 StateMachineService::getInstance($order)->changeStatus(StateMachineService::PAID);
-                DB::commit();
             }
+            DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
+            log_error('PayPal capture failed: '.$e->getMessage(), ['order' => $orderNumber, 'exception' => $e]);
+
+            return response()->json(['error' => ['message' => 'Payment processing failed']], 500);
         }
 
         return response()->json($result);

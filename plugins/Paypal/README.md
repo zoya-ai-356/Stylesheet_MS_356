@@ -6,19 +6,17 @@ The PayPal Payment Plugin is designed to integrate PayPal payment gateway into t
 
 ## Features
 
-- Seamless integration with PayPal's payment gateway.
-- Support for multiple PayPal payment methods (e.g., PayPal Checkout, PayPal Express Checkout).
-- Secure handling of payment transactions with PayPal IPN validation.
+- Integration with PayPal Checkout via the Orders API (PayPal balance, credit/debit cards).
 - Easy configuration through the InnoShop admin panel.
 - Support for multiple currencies.
-- Detailed logging for payment transactions.
-- Support for sandbox testing environment for development and testing.
-- Automatic handling of payment callbacks and status updates.
+- Sandbox test mode enabled by default for safe development.
+- Automatic handling of payment callbacks and order status updates.
+- Payment transaction logging.
 
 ## Installation
 
 1. Download the PayPal Payment Plugin from the InnoShop plugin marketplace or GitHub repository.
-2. Upload the plugin files to the `/plugins/Paypal` directory in your InnoShop installation.
+2. Upload the plugin files to the `/plugins/PayPal` directory in your InnoShop installation.
 3. Ensure the plugin directory structure is correct with all necessary configuration and code files.
 4. Navigate to the InnoShop admin panel and go to `Plugins` > `Payment Methods`.
 5. Find the PayPal Payment Plugin and click `Install`.
@@ -29,10 +27,10 @@ The PayPal Payment Plugin is designed to integrate PayPal payment gateway into t
 The PayPal Payment Plugin has the following directory structure:
 
 ```
-/plugins/Paypal
+/plugins/PayPal
 ├── Boot.php
 ├── Controllers/
-│   └── PaypalController.php
+│   └── PayPalController.php
 ├── Lang/
 │   ├── en/
 │   │   └── common.php
@@ -44,7 +42,7 @@ The PayPal Payment Plugin has the following directory structure:
 ├── Routes/
 │   └── front.php
 ├── Services/
-│   └── PaypalService.php
+│   └── PayPalService.php
 ├── Views/
 │   └── payment.blade.php
 ├── composer.json
@@ -56,11 +54,11 @@ The PayPal Payment Plugin has the following directory structure:
 
 Each file serves a specific purpose:
 - `Boot.php`: The main plugin class that initializes the plugin with InnoShop.
-- `Controllers/PaypalController.php`: Handles payment processing and callbacks.
+- `Controllers/PayPalController.php`: Handles payment processing and callbacks.
 - `Lang/en/common.php` and `Lang/zh-cn/common.php`: Contains language translations for the plugin settings.
 - `Public/images/logo.png`: The plugin logo image.
 - `Routes/front.php`: Defines the plugin's frontend routes.
-- `Services/PaypalService.php`: Implements the PayPal API integration.
+- `Services/PayPalService.php`: Implements the PayPal API integration.
 - `Views/payment.blade.php`: Provides the payment form view.
 - `composer.json`: Defines the plugin's dependencies.
 - `config.json`: Contains the plugin's basic configuration information.
@@ -70,7 +68,7 @@ The `config.json` file contains basic plugin information such as:
 
 ```json
 {
-    "code": "paypal",
+    "code": "pay_pal",
     "name": {
         "zh-cn": "PayPal",
         "en": "PayPal"
@@ -241,7 +239,7 @@ Example `config.json`:
 
 ```json
 {
-    "code": "paypal",
+    "code": "pay_pal",
     "name": {
         "zh-cn": "PayPal",
         "en": "PayPal"
@@ -281,8 +279,8 @@ To implement the PayPal Payment Plugin, the following components work together:
 
 1. **Plugin Initialization**: The `Boot.php` file initializes the plugin with InnoShop and sets up necessary hooks for payment processing.
 2. **Route Definition**: The `Routes/front.php` file defines the plugin's frontend routes, such as the payment processing and callback URLs.
-3. **Payment Controller**: The `Controllers/PaypalController.php` file handles payment processing and callbacks. This controller uses the `PaypalService` to interact with the PayPal API.
-4. **PayPal Service**: The `Services/PaypalService.php` file implements the PayPal API integration. This service handles the creation of payment requests, processing of payment responses, and validation of IPN notifications.
+3. **Payment Controller**: The `Controllers/PayPalController.php` file handles payment processing and callbacks. This controller uses the `PayPalService` to interact with the PayPal API.
+4. **PayPal Service**: The `Services/PayPalService.php` file implements the PayPal API integration. This service handles the creation of payment requests, processing of payment responses, and validation of IPN notifications.
 5. **Plugin Configuration**: The `config.json` file contains basic plugin information, while the `fields.php` file defines the configuration fields that appear in the admin panel.
 6. **Views and Translations**: The `Views/payment.blade.php` file provides the payment form view, while the language files in the `Lang/` directory provide translations for the plugin settings.
 

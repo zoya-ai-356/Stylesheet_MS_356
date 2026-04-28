@@ -7,10 +7,10 @@
  * @license    https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-namespace Plugin\Paypal;
+namespace Plugin\PayPal;
 
 use Exception;
-use Plugin\Paypal\Services\PaypalService;
+use Plugin\PayPal\Services\PayPalService;
 use Throwable;
 
 class Boot
@@ -25,11 +25,11 @@ class Boot
     {
         listen_hook_filter('service.payment.mobile_pay.data', function ($data) {
             $order = $data['order'];
-            if ($order->payment_method_code != 'paypal') {
+            if ($order->payment_method_code != 'pay_pal') {
                 return $data;
             }
 
-            $data['params'] = (new PaypalService($order))->getMobilePaymentData();
+            $data['params'] = (new PayPalService($order))->getMobilePaymentData();
 
             return $data;
         });

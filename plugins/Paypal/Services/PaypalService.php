@@ -7,14 +7,14 @@
  * @license    https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-namespace Plugin\Paypal\Services;
+namespace Plugin\PayPal\Services;
 
 use Exception;
 use InnoShop\Front\Services\PaymentService;
 use Srmklive\PayPal\Services\PayPal;
 use Throwable;
 
-class PaypalService extends PaymentService
+class PayPalService extends PaymentService
 {
     public PayPal $paypalClient;
 
@@ -26,16 +26,16 @@ class PaypalService extends PaymentService
     public function __construct($order)
     {
         parent::__construct($order);
-        $this->initPaypal();
+        $this->initPayPal();
     }
 
     /**
      * @return void
      * @throws Throwable
      */
-    private function initPaypal(): void
+    private function initPayPal(): void
     {
-        $paypalSetting = plugin_setting('paypal');
+        $paypalSetting = plugin_setting('pay_pal');
         $config        = [
             'mode'    => $paypalSetting['sandbox_mode'] ? 'sandbox' : 'live',
             'sandbox' => [
@@ -50,7 +50,7 @@ class PaypalService extends PaymentService
             'currency'       => strtoupper(system_setting('currency')),
             'notify_url'     => '',
             'locale'         => 'en_US',
-            'validate_ssl'   => false,
+            'validate_ssl'   => app()->environment('production'),
         ];
         config(['paypal' => null]);
         $this->paypalClient = new PayPal($config);
@@ -66,7 +66,7 @@ class PaypalService extends PaymentService
      */
     public function getMobilePaymentData(): array
     {
-        $paypalSetting = plugin_setting('paypal');
+        $paypalSetting = plugin_setting('pay_pal');
         $mode          = $paypalSetting['sandbox_mode'] ? 'sandbox' : 'live';
 
         if ($mode == 'sandbox') {
@@ -92,7 +92,7 @@ class PaypalService extends PaymentService
      */
     public function createOrder(): mixed
     {
-        $this->initPaypal();
+        $this->initPayPal();
         $order = $this->order;
         $total = round($order->total, 2);
 
@@ -104,7 +104,7 @@ class PaypalService extends PaymentService
                         'currency_code' => $order->currency_code,
                         'value'         => $total,
                     ],
-                    'description' => 'test',
+                    'description' => $order->number,
                 ],
             ],
         ]);
