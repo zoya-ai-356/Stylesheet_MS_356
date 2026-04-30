@@ -86,4 +86,5 @@ return [
     'version'                  => 'Versione',
     'view_token'               => 'Visualizza Token',
     'views'                    => 'Visualizzazioni',
+    'not_installed_hint'       => 'Questo plugin non è ancora installato. Si prega di installarlo prima di configurare le impostazioni.',
 ];

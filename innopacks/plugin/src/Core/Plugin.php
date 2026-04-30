@@ -37,7 +37,6 @@ final class Plugin implements Arrayable, ArrayAccess
 
     // 旧类型到新类型的映射（兼容旧插件）
     public const TYPE_MAPPING = [
-        'billing'    => 'payment',
         'fee'        => 'orderfee',
         'discount'   => 'orderfee',
         'translator' => 'service',

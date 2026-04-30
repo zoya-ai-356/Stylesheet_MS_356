@@ -92,4 +92,5 @@ return [
     'version'                       => '版本',
     'view_token'                    => '查看Token',
     'views'                         => '查看次數',
+    'not_installed_hint'            => '該插件尚未安裝，請先安裝後再進行配置。',
 ];

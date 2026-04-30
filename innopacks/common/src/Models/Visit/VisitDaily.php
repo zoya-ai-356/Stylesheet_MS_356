@@ -68,6 +68,11 @@ class VisitDaily extends BaseModel
      */
     public function getTotalPvAttribute(): int
     {
-        return $this->desktop_pv + $this->mobile_pv + $this->tablet_pv;
+        // If total_pv was loaded via selectRaw (e.g. SUM(pv) as total_pv), use it directly
+        if (array_key_exists('total_pv', $this->attributes)) {
+            return (int) $this->attributes['total_pv'];
+        }
+
+        return ($this->desktop_pv ?? 0) + ($this->mobile_pv ?? 0) + ($this->tablet_pv ?? 0);
     }
 }

@@ -40,8 +40,7 @@ class PluginTest extends TestCase
     {
         $this->assertTrue(defined(Plugin::class.'::TYPE_MAPPING'));
         $this->assertIsArray(Plugin::TYPE_MAPPING);
-        $this->assertArrayHasKey('billing', Plugin::TYPE_MAPPING);
-        $this->assertEquals('payment', Plugin::TYPE_MAPPING['billing']);
+        $this->assertArrayHasKey('fee', Plugin::TYPE_MAPPING);
         $this->assertEquals('orderfee', Plugin::TYPE_MAPPING['fee']);
         $this->assertEquals('orderfee', Plugin::TYPE_MAPPING['discount']);
         $this->assertEquals('service', Plugin::TYPE_MAPPING['translator']);

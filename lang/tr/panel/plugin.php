@@ -86,4 +86,5 @@ return [
     'version'                  => 'Versiyon',
     'view_token'               => 'Token Görüntüle',
     'views'                    => 'Görüntülenme',
+    'not_installed_hint'       => 'Bu eklenti henüz yüklenmedi. Ayarları yapılandırmadan önce lütfen yükleyin.',
 ];

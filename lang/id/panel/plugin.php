@@ -86,4 +86,5 @@ return [
     'version'                  => 'Versi',
     'view_token'               => 'Lihat token',
     'views'                    => 'Hitungan Tampilan',
+    'not_installed_hint'       => 'Plugin ini belum diinstal. Silakan instal terlebih dahulu untuk mengonfigurasi pengaturan.',
 ];

@@ -86,4 +86,5 @@ return [
     'version'                  => 'Version',
     'view_token'               => 'Afficher le jeton',
     'views'                    => 'Nombre de vues',
+    'not_installed_hint'       => 'Ce plugin n\'est pas encore installé. Veuillez l\'installer avant de configurer les paramètres.',
 ];

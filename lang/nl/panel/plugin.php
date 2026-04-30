@@ -86,4 +86,5 @@ return [
     'version'                  => 'Versie',
     'view_token'               => 'Bekijk Token',
     'views'                    => 'Bekijk aantal',
+    'not_installed_hint'       => 'Deze plugin is nog niet geïnstalleerd. Installeer deze eerst om instellingen te configureren.',
 ];

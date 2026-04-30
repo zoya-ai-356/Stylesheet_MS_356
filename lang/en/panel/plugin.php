@@ -137,4 +137,5 @@ return [
     'product_detail_cache_ttl'      => 'Detail Cache TTL',
     'product_detail_cache_ttl_tip'  => 'Detail page cache validity (seconds). Recommended: 300',
     'auth_pay_success'              => 'Payment successful!',
+    'not_installed_hint'            => 'This plugin is not installed yet. Please install it first to configure settings.',
 ];

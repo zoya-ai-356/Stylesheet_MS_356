@@ -138,4 +138,5 @@ return [
     'view_token'                    => '查看Token',
     'views'                         => '查看次数',
     'auth_pay_success'              => '支付成功！',
+    'not_installed_hint'            => '该插件尚未安装，请先安装后再进行配置。',
 ];

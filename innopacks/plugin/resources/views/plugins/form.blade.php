@@ -2,7 +2,9 @@
 
 @section('title', $plugin->getLocaleName())
 
+@if($plugin->checkInstalled())
 <x-panel::form.right-btns />
+@endif
 
 @section('content')
 <div class="card h-min-600">
@@ -33,7 +35,7 @@
           @if($plugin->getType())
             <div class="text-secondary small"><i class="bi bi-tag"></i> {{ __('panel/plugin.type') }}：{{ $plugin->getTypeFormat() }}</div>
           @endif
-          @if($plugin->checkInstalled() && $plugin->getEnabled() && $plugin->getMenuUrl())
+            @if($plugin->checkInstalled() && $plugin->getEnabled() && $plugin->getMenuUrl())
             <div class="ms-auto">
               <a href="{{ $plugin->getMenuUrl() }}" class="btn btn-success btn-sm" title="{{ __('common/base.use') }}">
                 <i class="bi bi-box-arrow-up-right"></i> {{ __('common/base.use') }}
@@ -43,11 +45,19 @@
         </div>
       </div>
     </div>
-    
+
     @php
       $readmeHtml = $plugin->getReadmeHtml();
     @endphp
-    
+
+    @if(!$plugin->checkInstalled())
+      <div class="text-center py-5">
+        <p class="text-secondary mb-3">{{ trans('panel/plugin.not_installed_hint') }}</p>
+        <button type="button" class="btn btn-primary btn-install-plugin" data-code="{{ $plugin->getCode() }}">
+          <i class="bi bi-puzzle-fill"></i> {{ __('panel/common.install') }}
+        </button>
+      </div>
+    @else
     <ul class="nav nav-tabs mt-4" role="tablist">
       <li class="nav-item">
         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#config-tab" role="tab">
@@ -87,6 +97,7 @@
       </div>
       @endif
     </div>
+    @endif
   </div>
 </div>
 @endsection
@@ -115,4 +126,24 @@
       font-size: 15px;
     }
   </style>
+@endpush
+
+@push('footer')
+  <script>
+    $(function () {
+      $('.btn-install-plugin').click(function () {
+        var code = $(this).data('code');
+        axios.post('/{{ panel_name() }}/plugins', {code: code}).then(function (res) {
+          if (res && res.success) {
+            window.location.reload();
+          } else {
+            inno.alert(res ? res.message : '{{ __("panel/common/install") }} failed');
+          }
+        }).catch(function (error) {
+          var data = error.response ? error.response.data : {};
+          layer.msg(data.message || error.message || '{{ __("panel/common.install") }} failed', { icon: 2 });
+        });
+      });
+    });
+  </script>
 @endpush

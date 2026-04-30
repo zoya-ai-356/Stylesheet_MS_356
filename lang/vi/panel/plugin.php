@@ -86,4 +86,5 @@ return [
     'version'                  => 'phiên bản',
     'view_token'               => 'xem Token',
     'views'                    => 'lượt xem',
+    'not_installed_hint'       => 'Plugin này chưa được cài đặt. Vui lòng cài đặt trước khi cấu hình.',
 ];

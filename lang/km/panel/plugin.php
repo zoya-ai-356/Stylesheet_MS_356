@@ -86,4 +86,5 @@ return [
     'version'                  => 'Version',
     'view_token'               => 'View Token',
     'views'                    => 'Views',
+    'not_installed_hint'       => 'កម្មវិធីជំនួយនេះមិនទាន់ដំឡើងទេ។ សូមដំឡើងមុននឹងកំណត់រចនាសម្ព័ន្ធ។',
 ];

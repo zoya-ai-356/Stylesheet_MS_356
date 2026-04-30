@@ -86,4 +86,5 @@ return [
     'version'                  => '버전',
     'view_token'               => '토큰 보기',
     'views'                    => '조회수',
+    'not_installed_hint'       => '이 플러그인은 아직 설치되지 않았습니다. 설정을 구성하기 전에 먼저 설치해 주세요.',
 ];
