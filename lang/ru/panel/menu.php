@@ -76,4 +76,9 @@ return [
     'plugin_coordination'    => 'Координация плагинов',
     'top_data'               => 'Данные',
     'visits'                 => 'Журнал посещений',
+    'content_ai'             => 'AI Content',
+    'payments'               => 'Payments',
+    'plugin-market'          => 'Plugin Market',
+    'plugins'                => 'Plugins',
+    'theme-market'           => 'Theme Market',
 ];

@@ -66,6 +66,8 @@ class RestAPIServiceProvider extends ServiceProvider
 
         $this->commands($this->commands);
 
+        $this->loadTranslationsFrom(__DIR__.'/../Lang', 'RestAPI');
+
         $this->registerScribePanelDocumentationRoutes();
 
         if (! installed()) {

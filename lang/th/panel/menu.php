@@ -76,4 +76,9 @@ return [
     'plugin_coordination'    => 'การประสานปลั๊กอิน',
     'top_data'               => 'ข้อมูล',
     'visits'                 => 'บันทึกการเข้าชม',
+    'content_ai'             => 'AI Content',
+    'payments'               => 'Payments',
+    'plugin-market'          => 'Plugin Market',
+    'plugins'                => 'Plugins',
+    'theme-market'           => 'Theme Market',
 ];

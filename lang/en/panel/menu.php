@@ -78,4 +78,9 @@ return [
     'theme_market'           => 'Theme Market',
     'top_data'               => 'Data',
     'visits'                 => 'Visit Records',
+    'content_ai'             => 'AI Content',
+    'payments'               => 'Payments',
+    'plugin-market'          => 'Plugin Market',
+    'plugins'                => 'Plugins',
+    'theme-market'           => 'Theme Market',
 ];

@@ -76,4 +76,9 @@ return [
     'plugin_coordination'    => 'Phối hợp Plugin',
     'top_data'               => 'Dữ liệu',
     'visits'                 => 'Nhật ký truy cập',
+    'content_ai'             => 'AI Content',
+    'payments'               => 'Payments',
+    'plugin-market'          => 'Plugin Market',
+    'plugins'                => 'Plugins',
+    'theme-market'           => 'Theme Market',
 ];

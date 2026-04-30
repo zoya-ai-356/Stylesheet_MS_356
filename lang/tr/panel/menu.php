@@ -76,4 +76,9 @@ return [
     'plugin_coordination'    => 'Eklenti Koordinasyonu',
     'top_data'               => 'Veriler',
     'visits'                 => 'Ziyaret Kayıtları',
+    'content_ai'             => 'AI Content',
+    'payments'               => 'Payments',
+    'plugin-market'          => 'Plugin Market',
+    'plugins'                => 'Plugins',
+    'theme-market'           => 'Theme Market',
 ];
